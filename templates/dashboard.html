@@ -2,7 +2,11 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>TradeMind AI</title>
 
     <style>
@@ -59,49 +63,133 @@
 
 <body>
 
-<h1>📈 TradeMind AI Scanner</h1>
+    <h1>📈 TradeMind AI Scanner</h1>
 
-<table>
+    <table>
 
-    <tr>
-        <th>Stock</th>
-        <th>Price</th>
-        <th>RSI</th>
-        <th>MACD</th>
-        <th>Signal</th>
-    </tr>
+        <tr>
 
-    {% for row in results %}
+            <th>Stock</th>
+            <th>Price</th>
+            <th>RSI</th>
+            <th>Trend</th>
+            <th>MACD</th>
+            <th>Volume</th>
+            <th>Score</th>
+            <th>Strength</th>
+            <th>Signal</th>
 
-    <tr>
+        </tr>
 
-        <td>{{ row.Stock }}</td>
+        {% for row in results %}
 
-        <td>₹ {{ row.Price }}</td>
+        <tr>
 
-        <td>{{ row.RSI }}</td>
+            <td>{{ row.Stock }}</td>
 
-        <td>{{ row.MACD }}</td>
+            <td>₹ {{ row.Price }}</td>
 
-        <td>
+            <td>{{ row.RSI }}</td>
 
-            {% if row.Signal == "BUY" %}
+            <td>
 
-                <span class="buy">🟢 BUY</span>
+                {% if row.Trend == "Bullish" %}
 
-            {% else %}
+                    <span class="buy">
+                        🟢 Bullish
+                    </span>
 
-                <span class="no">🔴 NO BUY</span>
+                {% else %}
 
-            {% endif %}
+                    <span class="no">
+                        🔴 Bearish
+                    </span>
 
-        </td>
+                {% endif %}
 
-    </tr>
+            </td>
 
-    {% endfor %}
+            <td>{{ row.MACD }}</td>
 
-</table>
+            <td>{{ row.Volume_Ratio }}x</td>
+
+            <td>
+
+                {% if row.Score >= 80 %}
+
+                    <span class="buy">
+                        {{ row.Score }}
+                    </span>
+
+                {% elif row.Score >= 50 %}
+
+                    <span style="color:orange;font-weight:bold;">
+                        {{ row.Score }}
+                    </span>
+
+                {% else %}
+
+                    <span class="no">
+                        {{ row.Score }}
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                {% if row.Strength == "STRONG BUY" %}
+
+                    <span class="buy">
+                        🔥 STRONG BUY
+                    </span>
+
+                {% elif row.Strength == "BUY" %}
+
+                    <span class="buy">
+                        🟢 BUY
+                    </span>
+
+                {% elif row.Strength == "WATCH" %}
+
+                    <span style="color:orange;font-weight:bold;">
+                        🟡 WATCH
+                    </span>
+
+                {% else %}
+
+                    <span class="no">
+                        🔴 NO BUY
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+            <td>
+
+                {% if row.Signal == "BUY" %}
+
+                    <span class="buy">
+                        🟢 BUY
+                    </span>
+
+                {% else %}
+
+                    <span class="no">
+                        🔴 NO BUY
+                    </span>
+
+                {% endif %}
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
 
 </body>
 
