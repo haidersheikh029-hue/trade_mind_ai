@@ -1,0 +1,21 @@
+import pandas as pd
+
+
+class RSIIndicator:
+
+    @staticmethod
+    def add_rsi(data, period=14):
+
+        delta = data["Close"].diff()
+
+        gain = delta.where(delta > 0, 0)
+        loss = -delta.where(delta < 0, 0)
+
+        avg_gain = gain.rolling(period).mean()
+        avg_loss = loss.rolling(period).mean()
+
+        rs = avg_gain / avg_loss
+
+        data["RSI"] = 100 - (100 / (1 + rs))
+
+        return data
